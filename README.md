@@ -20,6 +20,6 @@ Conceitos aprendidos.
 <b>Esta aplicação não tem conexão a fonte de dados externas.</b>
 
 
-Para testar utilize o <b>Yarn add</b>
+Para testar utilize o comando <b>Yarn</b>
 
 Tks ;)
