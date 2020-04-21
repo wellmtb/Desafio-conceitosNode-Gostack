@@ -23,12 +23,12 @@ app.get("/repositories", (request, response) => {
 });
 
 app.post("/repositories", (request, response) => {
-  const { title, url, techs, like } = request.body;
-  const project = { id: uuid(), title, url, techs, like: 0 };
+  const { title, url, techs } = request.body;
+  const repository = { id: uuid(), title, url, techs, like: 0 };
 
-  repositories.push(project);
+  repositories.push(repository);
 
-  return response.json(project);
+  return response.json(repository);
 });
 
 app.put("/repositories/:id", (request, response) => {
@@ -37,12 +37,17 @@ app.put("/repositories/:id", (request, response) => {
 
   const repoIndex = repositories.findIndex((repo) => repo.id === id);
 
-  if (repoIndex < 0) {
+  if (repoIndex === -1) {
     return response.status(400).json({ error: "Project not found" });
   }
-  let like = repositories[repoIndex].like;
 
-  const repositorie = { id, title, url, techs, like };
+  const repositorie = {
+    id,
+    title,
+    url,
+    techs,
+    like: repositories[repoIndex].like,
+  };
 
   repositories[repoIndex] = repositorie;
 
@@ -54,11 +59,11 @@ app.delete("/repositories/:id", (request, response) => {
 
   const repoIndex = repositories.findIndex((repo) => repo.id === id);
 
-  if (repoIndex < 0) {
+  if (repoIndex >= 0) {
+    repositories.splice(repoIndex, 1);
+  } else {
     return response.status(400).json({ error: "Project not found" });
   }
-
-  repositories.splice(repoIndex, 1);
 
   return response.status(204).send();
 });
